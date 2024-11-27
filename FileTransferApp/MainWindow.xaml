@@ -1,0 +1,56 @@
+﻿<Window x:Class="FileTransferApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FileTransferApp"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Configuración de Máquinas -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+            <Button Content="Seleccionar Archivos" 
+                    Click="SelectFiles_Click" 
+                    Margin="0,0,10,0"/>
+            <Button Content="Iniciar Transferencia" 
+                    Click="StartTransfer_Click"/>
+        </StackPanel>
+
+        <!-- Lista de Archivos -->
+        <DataGrid Grid.Row="1" 
+                  ItemsSource="{Binding FileTransfers}"
+                  AutoGenerateColumns="False"
+                  Margin="10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Nombre" 
+                                    Binding="{Binding FileName}"/>
+                <DataGridTextColumn Header="Tamaño (bytes)" 
+                                    Binding="{Binding FileSize}"/>
+                <DataGridTextColumn Header="Estado" 
+                                    Binding="{Binding Status}"/>
+                <DataGridTemplateColumn Header="Progreso">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ProgressBar 
+                                Value="{Binding ProgressPercentage}" 
+                                Maximum="100" 
+                                Width="100" 
+                                Height="15"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Barra de Estado -->
+        <StatusBar Grid.Row="2">
+            <TextBlock Text="{Binding StatusMessage}"/>
+        </StatusBar>
+    </Grid>
+</Window>
